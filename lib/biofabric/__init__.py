@@ -1,11 +1,14 @@
 import glob
 import os
+import importlib
 
 # list available backends
-__backends = {}
-for fn in glob.glob(os.path.join(os.path.dirname(__file__), "*_backend.py")):
-    fn = os.path.basename(fn)
-    __backends[fn[:-11]] = fn[:-3]
+__backends = {fn[:-11]: fn for fn in os.path.basename( glob.glob(os.path.join( os.path.dirname(__file__), "*_backend.py" )))}
+
+# OLD IMPLEMENTATION
+# for fn in glob.glob(os.path.join(os.path.dirname(__file__), "*_backend.py")):
+#    fn = os.path.basename(fn)
+#    __backends[fn[:-11]] = fn[:-3]
 
 
 def draw(graph, filename, output_format=None, backend="pyx", **kwargs):
@@ -20,7 +23,7 @@ def draw(graph, filename, output_format=None, backend="pyx", **kwargs):
        Additional keyword arguments will be sent to the backend. See the backend-specific documentation.
     """
     if backend in __backends:
-        backend_ = __import__(__backends[backend], globals())
+        backend_ = importlib.import_module(__backends[backend], globals())
     else:
         raise ValueError("unknown backend '%s'" % backend)
 
