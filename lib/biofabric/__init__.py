@@ -3,7 +3,7 @@ import os
 import importlib
 
 # list available backends
-__backends = {fn[:-11]: fn for fn in os.path.basename( glob.glob(os.path.join( os.path.dirname(__file__), "*_backend.py" )))}
+__backends = {os.path.basename(fn)[:-11]: os.path.basename(fn)[:-3] for fn in glob.glob(os.path.join(os.path.dirname(__file__), "*backend.py"))}
 
 # OLD IMPLEMENTATION
 # for fn in glob.glob(os.path.join(os.path.dirname(__file__), "*_backend.py")):
